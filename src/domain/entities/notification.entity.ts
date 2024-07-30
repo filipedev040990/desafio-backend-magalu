@@ -3,11 +3,11 @@ export interface NotificationEntity {
   type: NotificationTypes
   recipient: string
   scheduled_time: number
-  display_time: Date
+  schedule_date_hour: Date
   content: string
   status: NotificationStatus
   createdAt: Date
-  updatedAt: Date
+  updatedAt?: Date
 
 }
 
