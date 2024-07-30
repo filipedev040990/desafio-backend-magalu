@@ -4,8 +4,7 @@
   "description": "Base para projetos node + typescript",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/infra/http/server.js",
-    "dev": "ts-node-dev --respawn --transpile-only --clear -r dotenv/config --inspect=0.0.0.0:9229 src/main",
+    "start": "node dist/infra/main.js",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc -p tsconfig-build.json",
     "build:up": "clear && npm run build && docker compose down && docker compose up",
