@@ -2,8 +2,8 @@ export interface NotificationEntity {
   id: string
   type: NotificationTypes
   recipient: string
-  scheduled_time: number
-  schedule_date_hour: Date
+  scheduledTime: number
+  scheduleDateHour: Date
   content: string
   status: NotificationStatus
   createdAt: Date

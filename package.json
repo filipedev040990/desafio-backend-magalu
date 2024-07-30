@@ -20,6 +20,7 @@
     "test:integration": "npm t -- --config ./jest.integration.config.js"
   },
   "dependencies": {
+    "@prisma/client": "^5.17.0",
     "@types/cors": "^2.8.13",
     "cors": "^2.8.5",
     "express": "^4.17.1",

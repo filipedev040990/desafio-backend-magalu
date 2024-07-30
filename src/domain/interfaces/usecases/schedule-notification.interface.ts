@@ -3,7 +3,7 @@ import { NotificationEntity, NotificationTypes } from '../entities/notification.
 export type ScheduleNotificationInput = {
   type: NotificationTypes
   recipient: string
-  schedule_date_hour: Date
+  scheduleDateHour: Date
   content: string
 }
 

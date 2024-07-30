@@ -11,8 +11,8 @@ const fakeOutput = {
   id: 'anyId',
   type: 'whatsapp' as NotificationTypes,
   recipient: 'anyRecipient',
-  scheduled_time: 123456789,
-  schedule_date_hour: new Date(),
+  scheduledTime: 123456789,
+  scheduleDateHour: new Date(),
   content: 'AnyContent',
   status: 'waiting' as NotificationStatus,
   createdAt: new Date()
@@ -29,7 +29,7 @@ describe('ScheduleNotificationController', () => {
         type: 'whatsapp' as NotificationTypes,
         recipient: 'anyRecipient',
         content: 'AnyContent',
-        schedule_date_hour: new Date()
+        scheduleDateHour: new Date()
       }
     }
     usecase.execute.mockResolvedValue(fakeOutput)

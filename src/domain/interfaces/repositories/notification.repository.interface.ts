@@ -4,8 +4,8 @@ export type ScheduleNotificationRepositoryInput = {
   id: string
   type: string
   recipient: string
-  schedule_date_hour: Date
-  scheduled_time: number
+  scheduleDateHour: Date
+  scheduledTime: number
   content: string
   status: string
   createdAt: Date

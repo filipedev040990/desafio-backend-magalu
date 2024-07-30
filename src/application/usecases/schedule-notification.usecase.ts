@@ -10,22 +10,22 @@ export class ScheduleNotificationUseCase implements ScheduleNotificationUseCaseI
   async execute (input: ScheduleNotificationInput): Promise<NotificationEntity> {
     this.validateRequiredFields(input)
     this.validateType(input.type)
-    this.validateScheduledDateHour(input.schedule_date_hour)
+    this.validateScheduledDateHour(input.scheduleDateHour)
 
     return await this.notificationRepository.schedule({
       id: randomUUID(),
       type: input.type,
       recipient: input.recipient,
       content: input.content,
-      schedule_date_hour: input.schedule_date_hour,
-      scheduled_time: input.schedule_date_hour.getTime(),
+      scheduleDateHour: input.scheduleDateHour,
+      scheduledTime: input.scheduleDateHour.getTime(),
       status: constants.NOTIFICATION_WAITING_STATUS as NotificationStatus,
       createdAt: new Date()
     })
   }
 
   validateRequiredFields (input: ScheduleNotificationInput): void {
-    const requiredFields: Array<keyof ScheduleNotificationInput> = ['type', 'recipient', 'content', 'schedule_date_hour']
+    const requiredFields: Array<keyof ScheduleNotificationInput> = ['type', 'recipient', 'content', 'scheduleDateHour']
     for (const field of requiredFields) {
       if (!input[field]) {
         throw new MissingParamError(field)
@@ -42,7 +42,7 @@ export class ScheduleNotificationUseCase implements ScheduleNotificationUseCaseI
   validateScheduledDateHour (scheduleDateHour: Date): void {
     scheduleDateHour = new Date(scheduleDateHour)
     if (isNaN(scheduleDateHour.getTime()) || scheduleDateHour < new Date()) {
-      throw new InvalidParamError('schedule_date_hour')
+      throw new InvalidParamError('scheduleDateHour')
     }
   }
 }
