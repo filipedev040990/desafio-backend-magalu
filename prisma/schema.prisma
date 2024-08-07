@@ -17,7 +17,7 @@ model Notification {
   id               String    @id
   type             String
   recipient        String
-  scheduledTime    Int
+  scheduledTime    String
   scheduleDateHour DateTime
   content          String    @db.Text
   status           String

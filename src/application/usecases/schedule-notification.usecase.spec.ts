@@ -1,7 +1,7 @@
 import { ScheduleNotificationInput } from '@/domain/interfaces/usecases/schedule-notification.interface'
 import { ScheduleNotificationUseCase } from './schedule-notification.usecase'
 import { NotificationStatus, NotificationTypes } from '@/domain/entities/notification.entity'
-import { InvalidParamError, MissingParamError } from '@/shared/errors'
+import { MissingParamError } from '@/shared/errors'
 import { NotificationRepositoryInterface } from '@/domain/interfaces/repositories/notification.repository.interface'
 import { mock } from 'jest-mock-extended'
 import MockDate from 'mockdate'
@@ -15,14 +15,17 @@ const notificationRepository = mock<NotificationRepositoryInterface>()
 describe('ScheduleNotificationUseCase', () => {
   let sut: ScheduleNotificationUseCase
   let input: ScheduleNotificationInput
+  let now: Date
 
   beforeEach(() => {
     sut = new ScheduleNotificationUseCase(notificationRepository)
+    now = new Date()
+    now.setHours(now.getHours() + 5)
     input = {
       type: 'whatsapp' as NotificationTypes,
-      recipient: 'anyRecipient',
+      recipient: '32999895632',
       content: 'AnyContent',
-      scheduleDateHour: new Date()
+      scheduleDateHour: now
     }
   })
 
@@ -44,33 +47,15 @@ describe('ScheduleNotificationUseCase', () => {
     }
   })
 
-  test('should throws if a invalid type is provided', async () => {
-    input.type = 'invalid_type' as any
-    const promise = sut.execute(input)
-    await expect(promise).rejects.toThrowError(new InvalidParamError('type'))
-  })
-
-  test('should throws if a invalid scheduleDateHour is provided', async () => {
-    input.scheduleDateHour = 'invalid_date' as any
-    const promise = sut.execute(input)
-    await expect(promise).rejects.toThrowError(new InvalidParamError('scheduleDateHour'))
-  })
-
-  test('should throws if a invalid scheduleDateHour is provided', async () => {
-    input.scheduleDateHour = '1990-01-01 00:00:00' as any
-    const promise = sut.execute(input)
-    await expect(promise).rejects.toThrowError(new InvalidParamError('scheduleDateHour'))
-  })
-
   test('should call NotificationRepository.schedule once and with correct values', async () => {
-    const scheduleDateHour = new Date()
-    const scheduledTime = scheduleDateHour.getTime()
+    const scheduleDateHour = now
+    const scheduledTime = scheduleDateHour.getTime().toString()
     await sut.execute(input)
     expect(notificationRepository.schedule).toHaveBeenCalledTimes(1)
     expect(notificationRepository.schedule).toHaveBeenCalledWith({
       id: 'anyId',
       type: 'whatsapp',
-      recipient: 'anyRecipient',
+      recipient: '32999895632',
       scheduledTime: scheduledTime,
       scheduleDateHour: scheduleDateHour,
       content: 'AnyContent',
@@ -85,7 +70,7 @@ describe('ScheduleNotificationUseCase', () => {
     const notification = {
       id: 'anyId',
       type: 'whatsapp' as NotificationTypes,
-      recipient: 'anyRecipient',
+      recipient: '32999895632',
       scheduledTime: scheduledTime,
       scheduleDateHour: scheduleDateHour,
       content: 'AnyContent',

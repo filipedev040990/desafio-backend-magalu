@@ -9,7 +9,7 @@ export class ScheduleNotificationController implements ControllerInterface {
   async execute (input: HttpRequest): Promise<HttpResponse> {
     try {
       const output = await this.usecase.execute(input?.body)
-      return success(200, output)
+      return success(201, output)
     } catch (error) {
       return handleError(error)
     }

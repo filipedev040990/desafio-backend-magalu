@@ -33,3 +33,21 @@ export class UnauthorizedError extends Error {
     this.name = 'UnauthorizedError'
   }
 }
+export class JwtMissingError extends Error {
+  constructor () {
+    super('JWT token is missing')
+    this.name = 'JwtMissingError'
+  }
+}
+export class InvalidJwtError extends Error {
+  constructor () {
+    super('JWT token is invalid')
+    this.name = 'InvalidJwtError'
+  }
+}
+export class ConflictError extends Error {
+  constructor (resource: string) {
+    super(`The resource ${resource} already exists`)
+    this.name = 'ConflictError'
+  }
+}

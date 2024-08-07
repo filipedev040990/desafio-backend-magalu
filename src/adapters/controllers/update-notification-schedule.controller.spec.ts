@@ -1,35 +1,39 @@
 import { HttpRequest } from '@/shared/types'
-import { ScheduleNotificationController } from './schedule-notification.controller'
 import { NotificationStatus, NotificationTypes } from '@/domain/entities/notification.entity'
-import { mock } from 'jest-mock-extended'
-import { ScheduleNotificationUseCaseInterface } from '@/domain/interfaces/usecases/schedule-notification.interface'
 import { InvalidParamError } from '@/shared/errors'
 import { badRequest } from '@/shared/helpers/http.helper'
+import { UpdateNotificationScheduleController } from './update-notification-schedule.controller'
+import { UpdateNotificationScheduleUseCaseInterface } from '@/domain/interfaces/usecases/update-notification-schedule.interface'
+import { mock } from 'jest-mock-extended'
 
-const usecase = mock<ScheduleNotificationUseCaseInterface>()
+const usecase = mock<UpdateNotificationScheduleUseCaseInterface>()
 const fakeOutput = {
   id: 'anyId',
   type: 'whatsapp' as NotificationTypes,
-  recipient: 'anyRecipient',
+  recipient: '32999895689',
   scheduledTime: 123456789,
   scheduleDateHour: new Date(),
   content: 'AnyContent',
   status: 'waiting' as NotificationStatus,
-  createdAt: new Date()
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
-describe('ScheduleNotificationController', () => {
-  let sut: ScheduleNotificationController
+describe('UpdateNotificationScheduleController', () => {
+  let sut: UpdateNotificationScheduleController
   let input: HttpRequest
 
   beforeEach(() => {
-    sut = new ScheduleNotificationController(usecase)
+    sut = new UpdateNotificationScheduleController(usecase)
     input = {
       body: {
         type: 'whatsapp' as NotificationTypes,
         recipient: 'anyRecipient',
         content: 'AnyContent',
         scheduleDateHour: new Date()
+      },
+      params: {
+        id: 'anyId'
       }
     }
     usecase.execute.mockResolvedValue(fakeOutput)
@@ -38,12 +42,12 @@ describe('ScheduleNotificationController', () => {
   test('should call usecase once and with correct values', async () => {
     await sut.execute(input)
     expect(usecase.execute).toHaveBeenCalledTimes(1)
-    expect(usecase.execute).toHaveBeenCalledWith(input.body)
+    expect(usecase.execute).toHaveBeenCalledWith({ id: input.params.id, ...input.body })
   })
 
   test('should return a correct output', async () => {
     const output = await sut.execute(input)
-    expect(output).toEqual({ statusCode: 201, body: fakeOutput })
+    expect(output).toEqual({ statusCode: 200, body: fakeOutput })
   })
 
   test('should return a correct error if UseCase throws', async () => {

@@ -1,24 +1,30 @@
-import { NotificationEntity, NotificationStatus, NotificationTypes } from '@/domain/entities/notification.entity'
+import { NotificationEntity, NotificationStatus } from '@/domain/entities/notification.entity'
 import { NotificationRepositoryInterface } from '@/domain/interfaces/repositories/notification.repository.interface'
 import { ScheduleNotificationInput, ScheduleNotificationUseCaseInterface } from '@/domain/interfaces/usecases/schedule-notification.interface'
-import { InvalidParamError, MissingParamError } from '@/shared/errors'
+import { MissingParamError } from '@/shared/errors'
 import constants from '@/shared/constants'
 import { randomUUID } from 'crypto'
+import { NotificationUseCase } from './notification.usecase'
 
-export class ScheduleNotificationUseCase implements ScheduleNotificationUseCaseInterface {
-  constructor (private readonly notificationRepository: NotificationRepositoryInterface) {}
+export class ScheduleNotificationUseCase extends NotificationUseCase implements ScheduleNotificationUseCaseInterface {
+  constructor (private readonly notificationRepository: NotificationRepositoryInterface) {
+    super()
+  }
+
   async execute (input: ScheduleNotificationInput): Promise<NotificationEntity> {
     this.validateRequiredFields(input)
-    this.validateType(input.type)
-    this.validateScheduledDateHour(input.scheduleDateHour)
+    this.validateType(input.type, input.recipient)
+
+    const scheduleDateHour = new Date(input.scheduleDateHour)
+    this.validateScheduledDateHour(scheduleDateHour)
 
     return await this.notificationRepository.schedule({
       id: randomUUID(),
       type: input.type,
       recipient: input.recipient,
       content: input.content,
-      scheduleDateHour: input.scheduleDateHour,
-      scheduledTime: input.scheduleDateHour.getTime(),
+      scheduleDateHour: scheduleDateHour,
+      scheduledTime: scheduleDateHour.getTime().toString(),
       status: constants.NOTIFICATION_WAITING_STATUS as NotificationStatus,
       createdAt: new Date()
     })
@@ -30,19 +36,6 @@ export class ScheduleNotificationUseCase implements ScheduleNotificationUseCaseI
       if (!input[field]) {
         throw new MissingParamError(field)
       }
-    }
-  }
-
-  validateType (type: any): void {
-    if (!Object.values(NotificationTypes).includes(type)) {
-      throw new InvalidParamError('type')
-    }
-  }
-
-  validateScheduledDateHour (scheduleDateHour: Date): void {
-    scheduleDateHour = new Date(scheduleDateHour)
-    if (isNaN(scheduleDateHour.getTime()) || scheduleDateHour < new Date()) {
-      throw new InvalidParamError('scheduleDateHour')
     }
   }
 }

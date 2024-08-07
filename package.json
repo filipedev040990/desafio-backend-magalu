@@ -1,15 +1,12 @@
 {
-  "name": "projeto_base",
+  "name": "desafio_backend_magalu",
   "version": "1.0.0",
-  "description": "Base para projetos node + typescript",
+  "description": "Desafio técnico backend Magalu",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/infra/main.js",
+    "start": "node dist/infra/server.js",
     "clean": "rimraf dist",
     "build": "npm run clean && tsc -p tsconfig-build.json",
-    "build:up": "clear && npm run build && docker compose down && docker compose up",
-    "prepare": "husky install",
-    "check": "npm-check -s -u",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --passWithNoTests --no-cache --runInBand",
