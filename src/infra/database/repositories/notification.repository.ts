@@ -58,6 +58,20 @@ export class NotificationRepository implements NotificationRepositoryInterface {
     return this.mapModelToEntity(notification)
   }
 
+  async listAll (): Promise<NotificationEntity[] | null> {
+    const notifications = await prismaClient.notification.findMany()
+
+    if (!notifications || !notifications.length) {
+      return null
+    }
+
+    const notificationsOutput: NotificationEntity [] = notifications.map((n) => {
+      return this.mapModelToEntity(n)
+    })
+
+    return notificationsOutput
+  }
+
   mapModelToEntity (input: any): NotificationEntity {
     return {
       id: input.id,
