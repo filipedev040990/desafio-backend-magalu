@@ -53,6 +53,11 @@ export class NotificationRepository implements NotificationRepositoryInterface {
     return this.mapModelToEntity(notification)
   }
 
+  async cancel (id: string): Promise<NotificationEntity> {
+    const notification = await prismaClient.notification.update({ where: { id }, data: { status: 'canceled' } })
+    return this.mapModelToEntity(notification)
+  }
+
   mapModelToEntity (input: any): NotificationEntity {
     return {
       id: input.id,
