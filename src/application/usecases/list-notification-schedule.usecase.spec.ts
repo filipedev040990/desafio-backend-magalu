@@ -5,10 +5,6 @@ import MockDate from 'mockdate'
 import { mock } from 'jest-mock-extended'
 import { ListNotificationScheduleUseCase } from './list-notification-schedule.usecase'
 
-jest.mock('crypto', () => ({
-  randomUUID: jest.fn(() => 'anyId')
-}))
-
 const notificationRepository = mock<NotificationRepositoryInterface>()
 
 const scheduleDateHour = new Date()
@@ -35,7 +31,6 @@ describe('ListNotificationScheduleUseCase', () => {
     now = new Date()
     now.setHours(now.getHours() + 5)
     id = 'anyId'
-    notificationRepository.getById.mockResolvedValue(fakeNotification)
     notificationRepository.getById.mockResolvedValue(fakeNotification)
   })
 
