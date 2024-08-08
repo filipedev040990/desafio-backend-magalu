@@ -6,7 +6,7 @@ import { ListNotificationScheduleUseCaseInterface } from '@/domain/interfaces/us
 export class ListNotificationScheduleUseCase implements ListNotificationScheduleUseCaseInterface {
   constructor (private readonly notificationRepository: NotificationRepositoryInterface) {}
 
-  async execute (id: string): Promise<NotificationEntity> {
+  async execute (id: string): Promise<NotificationEntity | null> {
     if (!id) {
       throw new MissingParamError('id')
     }
@@ -16,6 +16,6 @@ export class ListNotificationScheduleUseCase implements ListNotificationSchedule
       throw new InvalidParamError('id')
     }
 
-    return await this.notificationRepository.list(id)
+    return existingNotification
   }
 }

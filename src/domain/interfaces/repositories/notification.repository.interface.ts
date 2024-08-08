@@ -25,6 +25,5 @@ export interface NotificationRepositoryInterface {
   schedule: (input: CreateScheduleNotificationRepositoryInput) => Promise<NotificationEntity>
   update: (input: UpdateScheduleNotificationRepositoryInput) => Promise<NotificationEntity>
   cancel: (id: string) => Promise<NotificationEntity>
-  list: (id: string) => Promise<NotificationEntity>
   getById: (id: string) => Promise<NotificationEntity | null>
 }

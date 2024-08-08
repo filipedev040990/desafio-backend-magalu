@@ -36,7 +36,7 @@ describe('ListNotificationScheduleUseCase', () => {
     now.setHours(now.getHours() + 5)
     id = 'anyId'
     notificationRepository.getById.mockResolvedValue(fakeNotification)
-    notificationRepository.list.mockResolvedValue(fakeNotification)
+    notificationRepository.getById.mockResolvedValue(fakeNotification)
   })
 
   beforeAll(() => {
@@ -65,10 +65,10 @@ describe('ListNotificationScheduleUseCase', () => {
     await expect(promise).rejects.toThrowError(new InvalidParamError('id'))
   })
 
-  test('should call NotificationRepository.list once and with correct values', async () => {
+  test('should call NotificationRepository.getById once and with correct values', async () => {
     await sut.execute(id)
-    expect(notificationRepository.list).toHaveBeenCalledTimes(1)
-    expect(notificationRepository.list).toHaveBeenCalledWith('anyId')
+    expect(notificationRepository.getById).toHaveBeenCalledTimes(1)
+    expect(notificationRepository.getById).toHaveBeenCalledWith('anyId')
   })
 
   test('should return a correct output', async () => {
