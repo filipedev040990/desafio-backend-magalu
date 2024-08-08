@@ -4,6 +4,7 @@ import { makeScheduleNotificationControllerFactory } from './factories/controlle
 import { makeUpdateNotificationScheduleControllerFactory } from './factories/controllers/update-notification-schedule-controller.factory'
 import { makeCancelNotificationScheduleControllerFactory } from './factories/controllers/cancel-notification-schedule-controller.factory'
 import { makeListNotificationScheduleControllerFactory } from './factories/controllers/list-notification-schedule-controller.factory'
+import { makeListAllNotificationsScheduleControllerFactory } from './factories/controllers/list-all-notifications-schedule-controller.factory'
 
 const router = Router()
 
@@ -11,5 +12,6 @@ router.patch('/notification/schedule/:id', expressRouteAdapter(makeUpdateNotific
 router.get('/notification/schedule/:id', expressRouteAdapter(makeListNotificationScheduleControllerFactory()))
 router.post('/notification/schedule/cancel/:id', expressRouteAdapter(makeCancelNotificationScheduleControllerFactory()))
 router.post('/notification/schedule', expressRouteAdapter(makeScheduleNotificationControllerFactory()))
+router.get('/notifications', expressRouteAdapter(makeListAllNotificationsScheduleControllerFactory()))
 
 export { router }
