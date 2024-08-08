@@ -27,4 +27,6 @@ export interface NotificationRepositoryInterface {
   cancel: (id: string) => Promise<NotificationEntity>
   getById: (id: string) => Promise<NotificationEntity | null>
   listAll: () => Promise<NotificationEntity [] | null>
+  getByScheduledTime: (scheduledTime: string) => Promise<NotificationEntity [] | null>
+  updateStatus: (id: string, status: string) => Promise<void>
 }
