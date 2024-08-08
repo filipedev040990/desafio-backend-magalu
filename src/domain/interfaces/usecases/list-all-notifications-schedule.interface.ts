@@ -1,5 +1,5 @@
 import { NotificationEntity } from '@/domain/entities/notification.entity'
 
-export interface ListALlNotificationsScheduleUseCaseInterface {
+export interface ListAllNotificationsScheduleUseCaseInterface {
   execute: () => Promise<NotificationEntity [] | null>
 }
