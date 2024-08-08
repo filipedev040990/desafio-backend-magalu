@@ -74,6 +74,8 @@ describe('UpdateNotificationScheduleUseCase', () => {
 
   test('should call NotificationRepository.update once and with correct values', async () => {
     const scheduleDateHour = now
+    scheduleDateHour.setSeconds(0)
+    scheduleDateHour.setMilliseconds(0)
     const scheduledTime = scheduleDateHour.getTime().toString()
     await sut.execute(input)
     expect(notificationRepository.update).toHaveBeenCalledTimes(1)

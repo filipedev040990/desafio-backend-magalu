@@ -38,13 +38,10 @@ export class UpdateNotificationScheduleUseCase extends NotificationUseCase imple
     }
 
     if (input.scheduleDateHour) {
-      const scheduleDateHour = new Date(input.scheduleDateHour)
-
-      this.validateScheduledDateHour(scheduleDateHour)
-
+      const scheduleDateHour = this.setScheduleDateHour(new Date(input.scheduleDateHour))
       Object.assign(updatedFields, {
         scheduleDateHour: scheduleDateHour,
-        scheduledTime: scheduleDateHour.getTime().toString()
+        scheduledTime: this.setScheduledTime(scheduleDateHour)
       })
     }
 

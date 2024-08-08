@@ -15,8 +15,7 @@ export class ScheduleNotificationUseCase extends NotificationUseCase implements 
     this.validateRequiredFields(input)
     this.validateType(input.type, input.recipient)
 
-    const scheduleDateHour = new Date(input.scheduleDateHour)
-    this.validateScheduledDateHour(scheduleDateHour)
+    const scheduleDateHour = this.setScheduleDateHour(new Date(input.scheduleDateHour))
 
     return await this.notificationRepository.schedule({
       id: randomUUID(),
@@ -24,7 +23,7 @@ export class ScheduleNotificationUseCase extends NotificationUseCase implements 
       recipient: input.recipient,
       content: input.content,
       scheduleDateHour: scheduleDateHour,
-      scheduledTime: scheduleDateHour.getTime().toString(),
+      scheduledTime: this.setScheduledTime(scheduleDateHour),
       status: constants.NOTIFICATION_WAITING_STATUS as NotificationStatus,
       createdAt: new Date()
     })

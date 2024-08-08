@@ -26,4 +26,15 @@ export class NotificationUseCase {
       throw new InvalidParamError('scheduleDateHour')
     }
   }
+
+  protected setScheduleDateHour (scheduleDateHour: Date): Date {
+    this.validateScheduledDateHour(scheduleDateHour)
+    scheduleDateHour.setSeconds(0)
+    scheduleDateHour.setMilliseconds(0)
+    return scheduleDateHour
+  }
+
+  protected setScheduledTime (date: Date): string {
+    return date.getTime().toString()
+  }
 }
