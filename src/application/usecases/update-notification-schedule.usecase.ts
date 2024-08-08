@@ -20,7 +20,7 @@ export class UpdateNotificationScheduleUseCase extends NotificationUseCase imple
     }
 
     if (existingNotification.status !== 'waiting') {
-      throw new InvalidParamError('This notification has already been sent')
+      throw new InvalidParamError('Only notifications with waiting status can be updated')
     }
 
     if (input.type || input.recipient) {
