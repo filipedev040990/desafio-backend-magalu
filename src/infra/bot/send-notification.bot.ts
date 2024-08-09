@@ -4,13 +4,13 @@ import { NotificationRepository } from '../database/repositories/notification.re
 
 export const sendNotifications = async (): Promise<void> => {
   schedule.scheduleJob('*/1 * * * *', async () => {
-    const currentMinuteTimestamp = getTimestampUntilMinutes()
+    const currentMinuteTimestamp = getCurrentMinuteTimestamp()
     const sendNotificationUseCase = new SendNotificationsUseCase(new NotificationRepository())
     await sendNotificationUseCase.execute(currentMinuteTimestamp)
   })
 }
 
-const getTimestampUntilMinutes = (): string => {
+const getCurrentMinuteTimestamp = (): string => {
   const now = new Date()
   now.setSeconds(0)
   now.setMilliseconds(0)
